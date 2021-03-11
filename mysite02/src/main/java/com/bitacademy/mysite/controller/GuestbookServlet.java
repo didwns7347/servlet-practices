@@ -1,4 +1,4 @@
-package com.bitacademy.guestbook.controller;
+package com.bitacademy.mysite.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -8,16 +8,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bitacademy.guestbook.dao.GuestbookDao;
-import com.bitacademy.guestbook.vo.GuestbookVo;
+import com.bitacademy.mysite.dao.GuestbookDao;
+import com.bitacademy.mysite.vo.GuestbookVo;
 import com.bitacademy.web.mvc.WebUtil;
 
 
 public class GuestbookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-   
+       
+
+    
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("a");
 		System.out.println(action);
@@ -29,14 +31,14 @@ public class GuestbookServlet extends HttpServlet {
 				num=Long.parseLong(str);
 			}
 			request.setAttribute("num", num);
-			WebUtil.forward("/WEB-INF/views/deleteform.jsp",request,response);
+			WebUtil.forward("/WEB-INF/views/guestbook/deleteform.jsp",request,response);
 		}
 		else if("add".equals(action)) {
 			
 			String name = request.getParameter("name");
 			String password = request.getParameter("password");
-			String contents = request.getParameter("contents");
-
+			String contents = request.getParameter("content");
+			System.out.println(name+password+contents);
 			GuestbookVo vo = new GuestbookVo();
 			vo.setName(name);
 			vo.setPassword(password);
@@ -56,13 +58,14 @@ public class GuestbookServlet extends HttpServlet {
 		else {
 			List<GuestbookVo> list = new GuestbookDao().findAll();
 			request.setAttribute("list", list);
-			WebUtil.forward("/WEB-INF/views/index.jsp", request, response);
+			WebUtil.forward("/WEB-INF/views/guestbook/index.jsp", request, response);
 		}
+
 	}
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

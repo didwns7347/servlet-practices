@@ -7,7 +7,7 @@
 		<artifactId>servlet-practices</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>guestbook02</artifactId>
+	<artifactId>mysite02</artifactId>
 	<packaging>war</packaging>
 	
 	<dependencies>
@@ -19,7 +19,7 @@
 	</dependencies>
 	
 	<build>
-		<finalName>guestbook02</finalName>
+		<finalName>mysite02</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
