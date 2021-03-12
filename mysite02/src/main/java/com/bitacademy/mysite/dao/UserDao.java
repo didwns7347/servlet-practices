@@ -3,6 +3,7 @@ package com.bitacademy.mysite.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.bitacademy.mysite.vo.UserVo;
@@ -22,6 +23,53 @@ public class UserDao {
 		}
 
 		return conn;
+	}
+	public UserVo findByEmailAndPassword(UserVo invo) {
+		UserVo vo =null;
+		
+		boolean result = false;
+		Connection conn = null;
+		ResultSet rs=null;
+		PreparedStatement pstmt = null;
+		try {
+			conn=this.getConnection();
+			
+			String sql="select no,name from user where email=? and password=?;";
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setString(1, invo.getEmail());
+			pstmt.setString(2, invo.getPassword());
+			
+			rs= pstmt.executeQuery();
+			if(rs.next()) {
+				Long no = rs.getLong(1);
+				String name=rs.getString(2);
+				vo=new UserVo();
+				vo.setNo(no);
+				vo.setName(name);
+				
+			}
+			 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("error: "+e);
+		}finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				
+				conn.close();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return vo;
 	}
 	
 	public boolean insert(UserVo vo) {
@@ -53,4 +101,9 @@ public class UserDao {
 		}
 		return true;
 	}
+	public UserVo findByNo(Long no) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
