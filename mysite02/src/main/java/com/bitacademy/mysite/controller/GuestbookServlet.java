@@ -55,6 +55,7 @@ public class GuestbookServlet extends HttpServlet {
 			new GuestbookDao().delete(pw,no);
 			WebUtil.redirect(request.getContextPath()+"/guestbook", request, response);
 		}
+		
 		else {
 			List<GuestbookVo> list = new GuestbookDao().findAll();
 			request.setAttribute("list", list);

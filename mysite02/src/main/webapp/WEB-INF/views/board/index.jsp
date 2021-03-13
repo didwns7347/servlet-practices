@@ -29,7 +29,7 @@
 					</tr>				
 					<tr>
 						<td>3</td>
-						<td><a href="" style="test-align:left; padding-left:0px">세 번째 글입니다.</a></td>
+						<td><a href="${pageContext.request.contextPath }/board?a=view" style="test-align:left; padding-left:0px">세 번째 글입니다.</a></td>
 						<td>안대혁</td>
 						<td>3</td>
 						<td>2015-10-11 12:04:20</td>
@@ -66,7 +66,10 @@
 				</div>					
 				<!-- pager 추가 -->
 				<div class="bottom">
-					<a href="" id="new-book">글쓰기</a>
+					
+					<a href="${pageContext.request.contextPath }/board?a=writeform" id="new-book">
+					글쓰기
+					</a>
 				</div>				
 			</div>
 		</div>

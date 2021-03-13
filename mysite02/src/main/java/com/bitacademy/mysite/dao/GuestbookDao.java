@@ -19,7 +19,7 @@ public class GuestbookDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			// 2. 연결하기
 			String url = "jdbc:mysql://localhost :3306/webdb?characterEncoding=utf8&serverTimezone=UTC";
-			conn = DriverManager.getConnection(url, "root", "1234");
+			conn = DriverManager.getConnection(url, "webdb", "webdb");
 		} catch (ClassNotFoundException e) {
 			System.out.println("error" + e);
 		}

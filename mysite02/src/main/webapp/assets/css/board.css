@@ -63,7 +63,7 @@ input#kwd	{
 }
 
 .board-form .tbl-ex td.label {
-	text-align:right;
+	text-align:left;
 	font-weight:bold;
 	width:60px; 
 }

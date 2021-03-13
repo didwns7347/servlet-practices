@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <div id="navigation">
 			<ul>
-				<li><a href="${pageContext.request.contextPath }">양준수</a></li>
+				<li><a href="${pageContext.request.contextPath }">홈으로 돌아가기</a></li>
 				<li><a href="${pageContext.request.contextPath }/guestbook">방명록</a></li>
 				<li><a href="${pageContext.request.contextPath }/board">게시판</a></li>
 			</ul>
