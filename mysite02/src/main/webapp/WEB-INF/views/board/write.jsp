@@ -14,10 +14,10 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="/board">
-					<input type = "hidden" name = "a" value="add">
+				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
 					<input type = "hidden" name="g_no" value="0">
 					<input type = "hidden" name="depth" value="0">
+					<input type="hidden" name="a" value="add">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>

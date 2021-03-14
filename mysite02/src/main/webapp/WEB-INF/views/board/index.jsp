@@ -18,40 +18,44 @@
 					<input type="text" id="kwd" name="kwd" value="">
 					<input type="submit" value="찾기">
 				</form>
+				<c:set var="count" value="${fn:length(list) }"/>
 				<table class="tbl-ex">
-					<tr>
+				<tr>
 						<th>번호</th>
 						<th>제목</th>
 						<th>글쓴이</th>
 						<th>조회수</th>
 						<th>작성일</th>
 						<th>&nbsp;</th>
-					</tr>				
-					<tr>
-						<td>3</td>
-						<td><a href="${pageContext.request.contextPath }/board?a=view" style="test-align:left; padding-left:0px">세 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-11 12:04:20</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td><a href="" style="test-align:left; padding-left:20px"><img src="${pageContext.request.contextPath }/assets/images/reply.png">두 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-02 12:04:12</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td><a href="" style="test-align:left; padding-left:40px"><img src="${pageContext.request.contextPath }/assets/images/reply.png">첫 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-09-25 07:24:32</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
+				</tr>
+				<c:forEach items="${list}" var="vo" varStatus="status">
+						<c:choose>
+							<c:when test="${vo.depth==0}">
+								<tr>		
+									<td align=center>[${count-status.index}]</td>
+									<td><a href="${pageContext.request.contextPath }/board?a=view" style="test-align:left; padding-left:0px">${vo.title}</a></td>
+									<td>${vo.writer}</td>
+									<td>3</td>
+									<td>${vo.date }</td>
+									<td><a href="${pageContext.request.contextPath }/board?a=" class="del">삭제</a></td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<tr>		
+									<td align=center>[${count-status.index}]</td>
+									<td><a href="${pageContext.request.contextPath }/board?a=view" style="test-align:left; padding-left:${vo.depth*20}px"><img src="${pageContext.request.contextPath }/assets/images/reply.png" />${vo.title}</a></td>
+									<td>${vo.writer}</td>
+									<td>3</td>
+									<td>${vo.date }</td>
+									<td><a href="${pageContext.request.contextPath }/board?a=" class="del">삭제</a></td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
+					
+				</c:forEach>
 				</table>
+				
+				
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>

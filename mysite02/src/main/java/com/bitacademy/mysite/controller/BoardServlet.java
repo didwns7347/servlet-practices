@@ -1,6 +1,8 @@
 package com.bitacademy.mysite.controller;
 
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +25,12 @@ public class BoardServlet extends HttpServlet {
 		String action = request.getParameter("a");
 		System.out.println(action);
 		if("writeform".equals(action)) {
+			HttpSession session = request.getSession();
+			UserVo authUser=(UserVo)session.getAttribute("authUser");
+			if(authUser==null) {
+				WebUtil.forward("/WEB-INF/views/user/loginform.jsp", request, response);
+				return;
+			}
 			WebUtil.forward("/WEB-INF/views/board/write.jsp", request, response);
 		
 		}
@@ -32,19 +40,36 @@ public class BoardServlet extends HttpServlet {
 		}
 		else if("add".equals(action)) {
 			HttpSession session = request.getSession();
-			UserVo uvo=(UserVo)session.getAttribute("authUser");
+			UserVo authUser=(UserVo)session.getAttribute("authUser");
+			if(authUser==null) {
+				WebUtil.forward("/WEB-INF/views/user/loginform.jsp", request, response);
+				return;
+			}
+
+		
 			BoardVo vo= new BoardVo();
-			vo.setTitle(request.getParameter("title"));
-			vo.setContents(request.getParameter("content"));
-			vo.setWriter(uvo.getName());
-			vo.setG_no(Long.parseLong(request.getParameter("g_no")));
-			vo.setDepth(Integer.parseInt(request.getParameter("depth")));
+			long no=authUser.getNo();
+			String title=request.getParameter("title");
+			String content=request.getParameter("content");
+			String writer=authUser.getName();
+			long gno = Long.parseLong(request.getParameter("g_no"));
+			int depth=Integer.parseInt(request.getParameter("depth"));
 			
+			//request.getAttributeNames().toString()
+			vo.setTitle(title);
+			vo.setContents(content);
+			vo.setWriter(writer);
+			vo.setG_no(no);
+			vo.setG_no(gno);
+			vo.setDepth(depth);
+			System.out.println(vo.toString());
 			new BoardDao().insert(vo);
 			WebUtil.forward("/WEB-INF/views/board/index.jsp", request, response);
 		
 		}
 		else {
+			List<BoardVo> list = new BoardDao().findAll();
+			request.setAttribute("list", list);
 			WebUtil.forward("/WEB-INF/views/board/index.jsp", request, response);
 		}
 		

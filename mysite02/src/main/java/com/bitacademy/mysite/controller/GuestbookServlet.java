@@ -34,7 +34,6 @@ public class GuestbookServlet extends HttpServlet {
 			WebUtil.forward("/WEB-INF/views/guestbook/deleteform.jsp",request,response);
 		}
 		else if("add".equals(action)) {
-			
 			String name = request.getParameter("name");
 			String password = request.getParameter("password");
 			String contents = request.getParameter("content");
