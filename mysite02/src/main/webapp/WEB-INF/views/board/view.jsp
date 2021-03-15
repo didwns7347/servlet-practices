@@ -22,19 +22,25 @@
 					</tr>
 					<tr>
 						<td class="label">제목</td>
-						<td>제목입니다.</td>
+						<td>${vo.title }</td>
 					</tr>
 					<tr>
 						<td class="label">내용</td>
 						<td>
 							<div class="view-content">
-								내용 1입니다.<br> 내용 2입니다.<br> 내용 3입니다.
+								${vo.contents }${vo.g_no}${vo.depth}
 							</div>
 						</td>
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="">답글 작성</a>
+					
+					<form action="${pageContext.request.contextPath }/board">
+						<input type = "hidden" name="a" value="readdform">
+						<input type = "hidden" name="g_no" value="${vo.g_no}">
+						<input type = "hidden" name="depth" value="${vo.depth}">
+						<input type="submit" value="답글작성" style="padding-left:20px">
+					</form>
 					<a href="${pageContext.request.contextPath }/board">글목록</a> 
 					<a href="">글수정</a>
 				</div>

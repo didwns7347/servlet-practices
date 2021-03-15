@@ -15,68 +15,118 @@ import com.bitacademy.mysite.vo.BoardVo;
 import com.bitacademy.mysite.vo.UserVo;
 import com.bitacademy.web.mvc.WebUtil;
 
-
 public class BoardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//request.setCharacterEncoding("utf-8");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("a");
 		System.out.println(action);
-		if("writeform".equals(action)) {
+		if ("writeform".equals(action)) {
 			HttpSession session = request.getSession();
-			UserVo authUser=(UserVo)session.getAttribute("authUser");
-			if(authUser==null) {
+			UserVo authUser = (UserVo) session.getAttribute("authUser");
+			if (authUser == null) {
 				WebUtil.forward("/WEB-INF/views/user/loginform.jsp", request, response);
 				return;
 			}
 			WebUtil.forward("/WEB-INF/views/board/write.jsp", request, response);
-		
-		}
-		else if("view".equals(action)) {
+
+		} else if ("view".equals(action)) {
+			String no = request.getParameter("no");
+			BoardVo vo = new BoardDao().findByNo(Integer.parseInt(no));
+			request.setAttribute("vo", vo);
 			WebUtil.forward("/WEB-INF/views/board/view.jsp", request, response);
-		
-		}
-		else if("add".equals(action)) {
+
+		} else if ("add".equals(action)) {
 			HttpSession session = request.getSession();
-			UserVo authUser=(UserVo)session.getAttribute("authUser");
-			if(authUser==null) {
+			UserVo authUser = (UserVo) session.getAttribute("authUser");
+			if (authUser == null) {
 				WebUtil.forward("/WEB-INF/views/user/loginform.jsp", request, response);
 				return;
 			}
 
-		
-			BoardVo vo= new BoardVo();
-			long no=authUser.getNo();
-			String title=request.getParameter("title");
-			String content=request.getParameter("content");
-			String writer=authUser.getName();
+			BoardVo vo = new BoardVo();
+
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			String writer = authUser.getName();
+			long gno = new BoardDao().getAuto();
+			int depth = Integer.parseInt(request.getParameter("depth"));
+
+			// request.getAttributeNames().toString()
+			if (depth == 0) {
+				vo.setTitle(title);
+				vo.setContents(content);
+				vo.setWriter(writer);
+				vo.setG_no(gno + 1);
+				vo.setDepth(depth);
+
+				new BoardDao().newinsert(vo);
+
+			} else {
+
+			}
+			WebUtil.redirect(request.getContextPath() + "/board", request, response);
+
+		} else if ("readdform".equals(action)) {
+
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo) session.getAttribute("authUser");
+			if (authUser == null) {
+				WebUtil.forward("/WEB-INF/views/user/loginform.jsp", request, response);
+				return;
+			}
+			String gno = request.getParameter("g_no");
+			String depth = request.getParameter("depth");
+			System.out.println("gno"+gno+"depth"+depth);
+			request.setAttribute("g_no", gno);
+			request.setAttribute("depth", depth);
+			WebUtil.forward("/WEB-INF/views/board/rewrite.jsp", request, response);
+
+		} else if ("readd".equals(action)) {
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo) session.getAttribute("authUser");
+			if (authUser == null) {
+				WebUtil.forward("/WEB-INF/views/user/loginform.jsp", request, response);
+				return;
+			}
+
+			BoardVo vo = new BoardVo();
+
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			String writer = authUser.getName();
 			long gno = Long.parseLong(request.getParameter("g_no"));
-			int depth=Integer.parseInt(request.getParameter("depth"));
-			
-			//request.getAttributeNames().toString()
+			int depth = Integer.parseInt(request.getParameter("depth")) + 1;
+
+			// request.getAttributeNames().toString()
+
 			vo.setTitle(title);
 			vo.setContents(content);
 			vo.setWriter(writer);
-			vo.setG_no(no);
 			vo.setG_no(gno);
 			vo.setDepth(depth);
-			System.out.println(vo.toString());
-			new BoardDao().insert(vo);
-			WebUtil.forward("/WEB-INF/views/board/index.jsp", request, response);
-		
+			System.out.println("vo=>"+vo.toString());
+			if(new BoardDao().newinsert(vo)) {
+				WebUtil.redirect(request.getContextPath() + "/board", request, response);
+				System.out.println("faill");
+			}
+			else {
+				System.out.println("asdf asdf");
+			}
 		}
+
 		else {
 			List<BoardVo> list = new BoardDao().findAll();
 			request.setAttribute("list", list);
 			WebUtil.forward("/WEB-INF/views/board/index.jsp", request, response);
 		}
-		
+
 	}
 
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

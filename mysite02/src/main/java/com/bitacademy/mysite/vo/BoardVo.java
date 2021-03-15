@@ -1,6 +1,11 @@
 package com.bitacademy.mysite.vo;
 
 public class BoardVo {
+	@Override
+	public String toString() {
+		return "BoardVo [no=" + no + ", title=" + title + ", contents=" + contents + ", writer=" + writer + ", g_no="
+				+ g_no + ", depth=" + depth + ", date=" + date + "]";
+	}
 	private long no;
 	private String title;
 	private String contents;
