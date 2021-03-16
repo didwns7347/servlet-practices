@@ -19,6 +19,8 @@ public class UserDaoTest {
 		// TODO Auto-generated method stub
 		System.out.println("Start");
 		System.out.println(UpdateTest());
+		String a="asdf";
+		
 
 	}
 

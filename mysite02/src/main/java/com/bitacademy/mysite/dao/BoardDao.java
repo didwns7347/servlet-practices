@@ -318,5 +318,46 @@ public class BoardDao {
 	
 		return vo;
 	}
+	public boolean delete(long no) {
+		int count=0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = getConnection();
+
+			// 3. SQL 준비
+			String sql = " delete" + "   from board" + " where no=?";
+
+			pstmt = conn.prepareStatement(sql);
+
+			// 4. 바인딩
+			pstmt.setLong(1, no);
+	
+
+			// 5. SQL문 실행
+			count = pstmt.executeUpdate();
+
+			// 6. 결과
+			return count == 1;
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		} finally {
+			// 자원정리
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return false;
+		
+	}
 
 }

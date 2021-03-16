@@ -29,6 +29,9 @@ public class BoardVo {
 		return title;
 	}
 	public void setTitle(String title) {
+		while(title.length()<=20) {
+			title+=" ";
+		}
 		this.title = title;
 	}
 	public String getContents() {

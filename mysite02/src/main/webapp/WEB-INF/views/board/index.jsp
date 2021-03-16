@@ -32,22 +32,26 @@
 						<c:choose>
 							<c:when test="${vo.depth==0}">
 								<tr>		
-									<td align=center>[${count-status.index}]</td>
-									<td><a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}" style="test-align:left; padding-left:0px">${vo.title}</a></td>
+									<td align=right>[${count-status.index}]</td>
+									<td ><a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}" style="test-align:left; padding-left:0px">${vo.title}</a></td>
 									<td>${vo.writer}</td>
 									<td>${vo.depth*10}</td>
 									<td>${vo.date }</td>
-									<td><a href="${pageContext.request.contextPath }/board?a=" class="del">삭제</a></td>
+									<c:if test="${vo.writer eq authUser.name}">
+										<td><a href="${pageContext.request.contextPath }/board?a=deleteform&no=${vo.no}" class="del">삭제</a></td>
+									</c:if>
 								</tr>
 							</c:when>
 							<c:otherwise>
 								<tr>		
 									<td align=center>[${count-status.index}]</td>
-									<td><a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}" style="test-align:left; padding-left:40px"><img src="${pageContext.request.contextPath }/assets/images/reply.png" />${vo.title}</a></td>
+									<td align=left><a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}" style="test-align:left;padding-left : ${vo.depth*20}px"><img src="${pageContext.request.contextPath }/assets/images/reply.png" />${vo.title}</a></td>
 									<td>${vo.writer}</td>
-									<td>${vo.depth*30 }</td>
+									<td>${vo.depth*10 }</td>
 									<td>${vo.date }</td>
-									<td><a href="${pageContext.request.contextPath }/board?a=" class="del">삭제</a></td>
+									<c:if test="${vo.writer eq authUser.name}">
+										<td><a href="${pageContext.request.contextPath }/board?a=deleteform&no=${vo.no}" class="del">삭제</a></td>
+									</c:if>
 								</tr>
 							</c:otherwise>
 						</c:choose>

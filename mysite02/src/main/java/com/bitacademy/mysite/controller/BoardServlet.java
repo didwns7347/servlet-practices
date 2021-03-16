@@ -101,7 +101,7 @@ public class BoardServlet extends HttpServlet {
 			int depth = Integer.parseInt(request.getParameter("depth")) + 1;
 
 			// request.getAttributeNames().toString()
-
+			
 			vo.setTitle(title);
 			vo.setContents(content);
 			vo.setWriter(writer);
@@ -115,6 +115,13 @@ public class BoardServlet extends HttpServlet {
 			else {
 				System.out.println("asdf asdf");
 			}
+		}else if("deleteform".equals(action)) {
+			request.setAttribute("no", request.getParameter("no"));
+			WebUtil.forward("/WEB-INF/views/board/deleteform.jsp", request, response);
+		}else if("delete".equals(action)) {
+			String no =request.getParameter("no");
+			new BoardDao().delete(Long.parseLong(no));
+			WebUtil.redirect(request.getContextPath() + "/board", request, response);
 		}
 
 		else {
