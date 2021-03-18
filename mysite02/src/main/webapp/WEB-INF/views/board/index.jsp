@@ -21,24 +21,27 @@
 				<c:set var="count" value="${fn:length(list) }"/>
 				<table class="tbl-ex">
 				<tr>
-						<th>번호</th>
-						<th>제목</th>
-						<th>글쓴이</th>
-						<th>조회수</th>
-						<th>작성일</th>
+						<th align=center>번호</th>
+						<th align=center>제목</th>
+						<th align=center>글쓴이</th>
+						<th align=center>조회수</th>
+						<th align=center>작성일</th>
 						<th>&nbsp;</th>
 				</tr>
 				<c:forEach items="${list}" var="vo" varStatus="status">
 						<c:choose>
 							<c:when test="${vo.depth==0}">
 								<tr>		
-									<td align=right>[${count-status.index}]</td>
+									<td align=center>[${count-status.index}]</td>
 									<td ><a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}" style="test-align:left; padding-left:0px">${vo.title}</a></td>
-									<td>${vo.writer}</td>
-									<td>${vo.depth*10}</td>
-									<td>${vo.date }</td>
+									<td align=center>${vo.writer}</td>
+									<td align=center>${vo.depth*10}</td>
+									<td align=center>${vo.date }</td>
 									<c:if test="${vo.writer eq authUser.name}">
 										<td><a href="${pageContext.request.contextPath }/board?a=deleteform&no=${vo.no}" class="del">삭제</a></td>
+									</c:if>
+									<c:if test="${vo.writer ne authUser.name}">
+										<td>&nbsp;</td>
 									</c:if>
 								</tr>
 							</c:when>
@@ -46,11 +49,14 @@
 								<tr>		
 									<td align=center>[${count-status.index}]</td>
 									<td align=left><a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no}" style="test-align:left;padding-left : ${vo.depth*20}px"><img src="${pageContext.request.contextPath }/assets/images/reply.png" />${vo.title}</a></td>
-									<td>${vo.writer}</td>
-									<td>${vo.depth*10 }</td>
-									<td>${vo.date }</td>
+									<td align=center>${vo.writer}</td>
+									<td align=center>${vo.depth*10 }</td>
+									<td align=center>${vo.date }</td>
 									<c:if test="${vo.writer eq authUser.name}">
 										<td><a href="${pageContext.request.contextPath }/board?a=deleteform&no=${vo.no}" class="del">삭제</a></td>
+									</c:if>
+									<c:if test="${vo.writer ne authUser.name}">
+										<td>&nbsp;</td>
 									</c:if>
 								</tr>
 							</c:otherwise>

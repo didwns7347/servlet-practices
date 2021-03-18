@@ -13,6 +13,8 @@ public class BoardVo {
 	private long g_no;
 	private int depth;
 	private String date;
+	private long gorder;
+	private long parent;
 	public long getNo() {
 		return no;
 	}
@@ -58,6 +60,19 @@ public class BoardVo {
 	public void setDepth(int depth) {
 		this.depth = depth;
 	}
+	public long getGorder() {
+		return gorder;
+	}
+	public void setGorder(long gorder) {
+		this.gorder = gorder;
+	}
+	public long getParent() {
+		return parent;
+	}
+	public void setParent(long parent) {
+		this.parent = parent;
+	}
+	
 	
 
 }

@@ -17,6 +17,7 @@
 				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
 					<input type = "hidden" name="g_no" value="${g_no}">
 					<input type = "hidden" name="depth" value="${depth}">
+					<input type= "hidden" name="parent" value="${parent}">
 					<input type="hidden" name="a" value="readd">
 					<table class="tbl-ex">
 						<tr>

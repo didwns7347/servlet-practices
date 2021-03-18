@@ -43,7 +43,7 @@ input#kwd	{
 .tbl-ex th, 
 .tbl-ex td	{ 
 	padding:8px;
-	text-align:center; 	 
+	 
 }
 	
 .tbl-ex th	{ 
@@ -97,7 +97,7 @@ div.bottom {
 
 div.bottom a { 
 	text-decoration:none; 
-	dispaly:block;
+	display:block;
 }
 
 a#new-book	 { 

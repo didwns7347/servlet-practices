@@ -60,7 +60,9 @@ public class BoardServlet extends HttpServlet {
 				vo.setContents(content);
 				vo.setWriter(writer);
 				vo.setG_no(gno + 1);
+				vo.setGorder(0);
 				vo.setDepth(depth);
+				vo.setParent(0l);
 
 				new BoardDao().newinsert(vo);
 
@@ -70,7 +72,7 @@ public class BoardServlet extends HttpServlet {
 			WebUtil.redirect(request.getContextPath() + "/board", request, response);
 
 		} else if ("readdform".equals(action)) {
-
+			
 			HttpSession session = request.getSession();
 			UserVo authUser = (UserVo) session.getAttribute("authUser");
 			if (authUser == null) {
@@ -79,9 +81,11 @@ public class BoardServlet extends HttpServlet {
 			}
 			String gno = request.getParameter("g_no");
 			String depth = request.getParameter("depth");
+			String parent = request.getParameter("parent");
 			System.out.println("gno"+gno+"depth"+depth);
 			request.setAttribute("g_no", gno);
 			request.setAttribute("depth", depth);
+			request.setAttribute("parent", parent);
 			WebUtil.forward("/WEB-INF/views/board/rewrite.jsp", request, response);
 
 		} else if ("readd".equals(action)) {
@@ -99,7 +103,9 @@ public class BoardServlet extends HttpServlet {
 			String writer = authUser.getName();
 			long gno = Long.parseLong(request.getParameter("g_no"));
 			int depth = Integer.parseInt(request.getParameter("depth")) + 1;
-
+			long parent = Long.parseLong(request.getParameter("parent"));
+			long gorder=new BoardDao().getGorderRe(parent);
+			gorder=Math.max(gorder, new BoardDao().getGorderByP(parent)+1);
 			// request.getAttributeNames().toString()
 			
 			vo.setTitle(title);
@@ -107,8 +113,10 @@ public class BoardServlet extends HttpServlet {
 			vo.setWriter(writer);
 			vo.setG_no(gno);
 			vo.setDepth(depth);
+			vo.setGorder(gorder+1);
+			vo.setParent(parent);
 			System.out.println("vo=>"+vo.toString());
-			if(new BoardDao().newinsert(vo)) {
+			if(new BoardDao().reinsert(vo)) {
 				WebUtil.redirect(request.getContextPath() + "/board", request, response);
 				System.out.println("faill");
 			}
@@ -116,18 +124,38 @@ public class BoardServlet extends HttpServlet {
 				System.out.println("asdf asdf");
 			}
 		}else if("deleteform".equals(action)) {
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo) session.getAttribute("authUser");
+			if (authUser == null) {
+				WebUtil.forward("/WEB-INF/views/user/loginform.jsp", request, response);
+				return;
+			}
 			request.setAttribute("no", request.getParameter("no"));
 			WebUtil.forward("/WEB-INF/views/board/deleteform.jsp", request, response);
 		}else if("delete".equals(action)) {
 			String no =request.getParameter("no");
-			new BoardDao().delete(Long.parseLong(no));
+			new BoardDao().deleteV2(Long.parseLong(no));
 			WebUtil.redirect(request.getContextPath() + "/board", request, response);
 		}
 
 		else {
-			List<BoardVo> list = new BoardDao().findAll();
+			String page;
+			if(request.getParameter("page")==null) {
+				page="0";
+			}
+			else {
+				page=request.getParameter("page");
+			}
+			int total = new BoardDao().getCount();
+			List<BoardVo> list = new BoardDao().findPage(Integer.parseInt(page));
+			int fin=0;
+			if(total%10==0)
+				fin=total/10;
+			else {
+				fin=total/10+1;
+			}
 			request.setAttribute("list", list);
-			WebUtil.forward("/WEB-INF/views/board/index.jsp", request, response);
+			WebUtil.forward("/WEB-INF/views/board/index.jsp?page="+page+"&total="+total+"&fin="+fin, request, response);
 		}
 
 	}
