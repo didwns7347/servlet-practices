@@ -40,9 +40,9 @@
 					
 					<form action="${pageContext.request.contextPath }/board">
 						<input type = "hidden" name="a" value="readdform">
-						<input type = "hidden" name="parent" value="${vo.no}">
 						<input type = "hidden" name="g_no" value="${vo.g_no}">
 						<input type = "hidden" name="depth" value="${vo.depth}">
+						<input type = "hidden" name="gorder" value="${vo.gorder}">
 						<input type="submit" value="답글작성" style="padding-left:20px">
 					</form>
 					<a href="${pageContext.request.contextPath }/board">글목록</a> 

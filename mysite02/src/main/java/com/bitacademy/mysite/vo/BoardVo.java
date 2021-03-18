@@ -14,7 +14,7 @@ public class BoardVo {
 	private int depth;
 	private String date;
 	private long gorder;
-	private long parent;
+
 	public long getNo() {
 		return no;
 	}
@@ -66,13 +66,7 @@ public class BoardVo {
 	public void setGorder(long gorder) {
 		this.gorder = gorder;
 	}
-	public long getParent() {
-		return parent;
-	}
-	public void setParent(long parent) {
-		this.parent = parent;
-	}
-	
+
 	
 
 }

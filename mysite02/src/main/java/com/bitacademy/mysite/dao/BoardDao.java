@@ -132,7 +132,7 @@ public class BoardDao {
 
 			// 3. SQL 준비
 			
-			String sql = " insert" + "   into board" + " values (null, ?, ?, ?, ?, ?, now(),?,?)";
+			String sql = " insert" + "   into board" + " values (null, ?, ?, ?, ?, ?, now(),?)";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -143,7 +143,7 @@ public class BoardDao {
 			pstmt.setLong(4, vo.getG_no());
 			pstmt.setInt(5, vo.getDepth());
 			pstmt.setLong(6, vo.getGorder());
-			pstmt.setLong(7, vo.getParent());
+			
 
 			// 5. SQL문 실행
 			int count = pstmt.executeUpdate();
@@ -213,7 +213,7 @@ public class BoardDao {
 			// 3. SQL 준비
 		
 			this.before(vo.getG_no(), vo.getGorder());
-			String sql = " insert" + "   into board" + " values (null, ?, ?, ?, ?, ?, now(),?,?)";
+			String sql = " insert" + "   into board" + " values (null, ?, ?, ?, ?, ?, now(),?)";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -224,7 +224,7 @@ public class BoardDao {
 			pstmt.setLong(4, vo.getG_no());
 			pstmt.setInt(5, vo.getDepth());
 			pstmt.setLong(6, vo.getGorder());
-			pstmt.setLong(7, vo.getParent());
+		
 
 			// 5. SQL문 실행
 			int count = pstmt.executeUpdate();
@@ -318,7 +318,7 @@ public class BoardDao {
 			conn = getConnection();
 
 			// 3. SQL 준비
-			String sql ="select title,contents,g_no,depth from board where no=? ";
+			String sql ="select title,contents,g_no,depth,g_order from board where no=? ";
 		
 			pstmt = conn.prepareStatement(sql);
 
@@ -334,6 +334,7 @@ public class BoardDao {
 				vo.setG_no(rs.getLong(3));
 				vo.setDepth(rs.getInt(4));
 				vo.setNo(no);
+				vo.setGorder(rs.getLong(5));
 			}
 
 			

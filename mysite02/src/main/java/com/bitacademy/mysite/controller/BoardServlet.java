@@ -62,7 +62,7 @@ public class BoardServlet extends HttpServlet {
 				vo.setG_no(gno + 1);
 				vo.setGorder(0);
 				vo.setDepth(depth);
-				vo.setParent(0l);
+				
 
 				new BoardDao().newinsert(vo);
 
@@ -81,11 +81,13 @@ public class BoardServlet extends HttpServlet {
 			}
 			String gno = request.getParameter("g_no");
 			String depth = request.getParameter("depth");
-			String parent = request.getParameter("parent");
-			System.out.println("gno"+gno+"depth"+depth);
+			
+			String gorder= request.getParameter("gorder");
+			System.out.println("gno"+gno+"depth"+depth+"gorder"+gorder);
 			request.setAttribute("g_no", gno);
+			request.setAttribute("gorder", gorder);
 			request.setAttribute("depth", depth);
-			request.setAttribute("parent", parent);
+
 			WebUtil.forward("/WEB-INF/views/board/rewrite.jsp", request, response);
 
 		} else if ("readd".equals(action)) {
@@ -95,26 +97,27 @@ public class BoardServlet extends HttpServlet {
 				WebUtil.forward("/WEB-INF/views/user/loginform.jsp", request, response);
 				return;
 			}
-
+			
 			BoardVo vo = new BoardVo();
-
+			System.out.println("여기ㄱ까지 됨"+request.getParameter("groder"));
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
 			String writer = authUser.getName();
 			long gno = Long.parseLong(request.getParameter("g_no"));
 			int depth = Integer.parseInt(request.getParameter("depth")) + 1;
-			long parent = Long.parseLong(request.getParameter("parent"));
-			long gorder=new BoardDao().getGorderRe(parent);
-			gorder=Math.max(gorder, new BoardDao().getGorderByP(parent)+1);
-			// request.getAttributeNames().toString()
+			long gorder = Long.parseLong(request.getParameter("gorder"))+1l;
+			System.out.println("여기ㄱ까지 됨"+request.getParameter("groder"));
+			System.out.println("GOREDER="+gorder);
 			
+			// request.getAttributeNames().toString()
+			System.out.println("GOREDER="+gorder);
 			vo.setTitle(title);
 			vo.setContents(content);
 			vo.setWriter(writer);
 			vo.setG_no(gno);
 			vo.setDepth(depth);
-			vo.setGorder(gorder+1);
-			vo.setParent(parent);
+			vo.setGorder(gorder);
+		
 			System.out.println("vo=>"+vo.toString());
 			if(new BoardDao().reinsert(vo)) {
 				WebUtil.redirect(request.getContextPath() + "/board", request, response);
