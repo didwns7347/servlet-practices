@@ -18,6 +18,7 @@
 					<input type = "hidden" name="g_no" value="${g_no}">
 					<input type = "hidden" name="depth" value="${depth}">
 					<input type= "hidden" name="gorder" value="${gorder}">
+					<input type= "hidden" name="parent" value="${parent}">
 					<input type="hidden" name="a" value="readd">
 					<table class="tbl-ex">
 						<tr>
@@ -28,7 +29,7 @@
 							<td><input type="text" name="title" value=""></td>
 						</tr>
 						<tr>
-							<td class="label">내용${gorder}</td>
+							<td class="label">내용</td>
 							<td>
 								<textarea id="content" name="content"></textarea>
 							</td>

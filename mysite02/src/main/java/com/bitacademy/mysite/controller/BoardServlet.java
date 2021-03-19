@@ -62,7 +62,7 @@ public class BoardServlet extends HttpServlet {
 				vo.setG_no(gno + 1);
 				vo.setGorder(0);
 				vo.setDepth(depth);
-				
+				vo.setParent(0l);
 
 				new BoardDao().newinsert(vo);
 
@@ -81,13 +81,13 @@ public class BoardServlet extends HttpServlet {
 			}
 			String gno = request.getParameter("g_no");
 			String depth = request.getParameter("depth");
-			
+			String parent = request.getParameter("parent");
 			String gorder= request.getParameter("gorder");
 			System.out.println("gno"+gno+"depth"+depth+"gorder"+gorder);
 			request.setAttribute("g_no", gno);
 			request.setAttribute("gorder", gorder);
 			request.setAttribute("depth", depth);
-
+			request.setAttribute("parent", parent);
 			WebUtil.forward("/WEB-INF/views/board/rewrite.jsp", request, response);
 
 		} else if ("readd".equals(action)) {
@@ -99,26 +99,28 @@ public class BoardServlet extends HttpServlet {
 			}
 			
 			BoardVo vo = new BoardVo();
-			System.out.println("여기ㄱ까지 됨"+request.getParameter("groder"));
+			//System.out.println("여기ㄱ까지 됨"+request.getParameter("gorder"));
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
 			String writer = authUser.getName();
 			long gno = Long.parseLong(request.getParameter("g_no"));
 			int depth = Integer.parseInt(request.getParameter("depth")) + 1;
 			long gorder = Long.parseLong(request.getParameter("gorder"))+1l;
-			System.out.println("여기ㄱ까지 됨"+request.getParameter("groder"));
-			System.out.println("GOREDER="+gorder);
-			
+			long parent = Long.parseLong(request.getParameter("parent"));
+			//System.out.println("여기ㄱ까지 됨"+request.getParameter("gorder"));
+			//System.out.println("GOREDER="+gorder);
+			long child = new BoardDao().getGorderByP(parent)+1;
+			gorder = Math.max(gorder, child);
 			// request.getAttributeNames().toString()
-			System.out.println("GOREDER="+gorder);
+			//System.out.println("GOREDER="+gorder);
 			vo.setTitle(title);
 			vo.setContents(content);
 			vo.setWriter(writer);
 			vo.setG_no(gno);
 			vo.setDepth(depth);
 			vo.setGorder(gorder);
-		
-			System.out.println("vo=>"+vo.toString());
+			vo.setParent(parent);
+			//System.out.println("vo=>"+vo.toString());
 			if(new BoardDao().reinsert(vo)) {
 				WebUtil.redirect(request.getContextPath() + "/board", request, response);
 				System.out.println("faill");
@@ -142,23 +144,56 @@ public class BoardServlet extends HttpServlet {
 		}
 
 		else {
-			String page;
-			if(request.getParameter("page")==null) {
-				page="0";
-			}
-			else {
-				page=request.getParameter("page");
-			}
+			int page;
+			int idx;
 			int total = new BoardDao().getCount();
-			List<BoardVo> list = new BoardDao().findPage(Integer.parseInt(page));
-			int fin=0;
-			if(total%10==0)
-				fin=total/10;
-			else {
-				fin=total/10+1;
+			int lastidx=(total%50==0)? total/50+1:total/50+2;
+			if(request.getParameter("page")==null) {
+				page=1;
 			}
+			else {
+				page=Integer.parseInt(request.getParameter("page"));
+			}
+			if(request.getParameter("index")==null) {
+				idx=1;
+			}
+			else {
+				idx=Integer.parseInt(request.getParameter("index"));
+				System.out.println(idx);
+				if(idx<1)
+					idx=1;
+				else if(idx>lastidx)
+					idx=lastidx;
+			}
+			if(request.getParameter("go")!=null && "u".equals(request.getParameter("go"))) {
+				page++;
+				if(page>total) {
+					page=total;
+				}
+			}
+			if(request.getParameter("go")!=null && "d".equals(request.getParameter("go"))) {
+				if(page-5<1) {
+					page=1;
+				}
+				else {
+					page=(page-5)/5+4;
+				}
+				if(page>total) {
+					page=1;
+				}
+			}
+			
+			
+			List<BoardVo> list = new BoardDao().findPage(page-1);
+			
+			int totalpage=(total%10==0)? total/10:total/10+1;
+			request.setAttribute("index",idx);
 			request.setAttribute("list", list);
-			WebUtil.forward("/WEB-INF/views/board/index.jsp?page="+page+"&total="+total+"&fin="+fin, request, response);
+			request.setAttribute("page", page);
+			request.setAttribute("total", total);
+			request.setAttribute("totalpage", totalpage);
+			request.setAttribute("lastidx", lastidx);
+			WebUtil.forward("/WEB-INF/views/board/index.jsp",  request, response);
 		}
 
 	}

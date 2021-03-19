@@ -132,7 +132,7 @@ public class BoardDao {
 
 			// 3. SQL 준비
 			
-			String sql = " insert" + "   into board" + " values (null, ?, ?, ?, ?, ?, now(),?)";
+			String sql = " insert" + "   into board" + " values (null, ?, ?, ?, ?, ?, now(),?,?)";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -143,7 +143,7 @@ public class BoardDao {
 			pstmt.setLong(4, vo.getG_no());
 			pstmt.setInt(5, vo.getDepth());
 			pstmt.setLong(6, vo.getGorder());
-			
+			pstmt.setLong(7, vo.getParent());
 
 			// 5. SQL문 실행
 			int count = pstmt.executeUpdate();
@@ -213,7 +213,7 @@ public class BoardDao {
 			// 3. SQL 준비
 		
 			this.before(vo.getG_no(), vo.getGorder());
-			String sql = " insert" + "   into board" + " values (null, ?, ?, ?, ?, ?, now(),?)";
+			String sql = " insert" + "   into board" + " values (null, ?, ?, ?, ?, ?, now(),?,?)";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -224,8 +224,8 @@ public class BoardDao {
 			pstmt.setLong(4, vo.getG_no());
 			pstmt.setInt(5, vo.getDepth());
 			pstmt.setLong(6, vo.getGorder());
-		
-
+			pstmt.setLong(7, vo.getParent());
+			
 			// 5. SQL문 실행
 			int count = pstmt.executeUpdate();
 
@@ -409,7 +409,7 @@ public class BoardDao {
 			PreparedStatement pstmt = null;
 			String sql = "update board set  title=?, contents=? where no=?; ";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "삭제된 글");
+			pstmt.setString(1, new BoardVo().getDel());
 			pstmt.setString(2, "");
 			pstmt.setLong(3, no);
 			
@@ -593,7 +593,7 @@ public class BoardDao {
 			conn = getConnection();
 
 			// 3. SQL 준비
-			String sql ="select g_order from board where no=?";
+			String sql ="select max(g_order) from board where parent=?";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, no);
