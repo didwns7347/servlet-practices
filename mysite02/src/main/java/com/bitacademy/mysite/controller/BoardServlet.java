@@ -166,18 +166,27 @@ public class BoardServlet extends HttpServlet {
 					idx=lastidx;
 			}
 			if(request.getParameter("go")!=null && "u".equals(request.getParameter("go"))) {
-				page++;
+				if(page%5==0)
+					page++;
+				else {
+					int tmp=(page+5)/5;
+					page=page*tmp+1;
+				}
 				if(page>total) {
 					page=total;
 				}
 			}
 			if(request.getParameter("go")!=null && "d".equals(request.getParameter("go"))) {
-				if(page-5<1) {
-					page=1;
+				
+				
+				if(page-5%5==0) {
+					page=page-5;
 				}
 				else {
-					page=(page-5)/5+4;
+					int tmp=(page-5)/5+1;
+					page=tmp*5;
 				}
+				
 				if(page>total) {
 					page=1;
 				}

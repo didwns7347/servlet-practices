@@ -1,0 +1,10 @@
+<script>
+	var now=document.location.href;
+	if(localStorage.getItem("url")==null){
+		localStorage.setItem("url",now);
+	}
+	else{
+		var url=localStorage.getItem("url")+"@"+now;
+		localStorage.setItem("url",url);
+	}
+</script>

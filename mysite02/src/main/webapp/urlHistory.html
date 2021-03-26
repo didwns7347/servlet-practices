@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<p id = "demo"></p>
+	<script type="text/javascript">
+	
+		text="";
+		var s=localStorage.getItem('url');
+		var urls=s.split("@");
+		for(var i=0;i<urls.length;i++){
+			text+=urls[i]+"<br/>";
+		}
+		document.getElementById("demo").innerHTML=text;
+	</script>
+</body>
+</html>

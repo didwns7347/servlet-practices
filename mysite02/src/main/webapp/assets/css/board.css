@@ -41,7 +41,9 @@ input#kwd	{
 }
 
 .tbl-ex th, 
-.tbl-ex td	{ 
+.tbl-ex td
+
+	{ 
 	padding:8px;
 	 
 }
@@ -54,16 +56,19 @@ input#kwd	{
 	color:#fff 
 }
 
-.tbl-ex td {
+
+.tbl-ex td  {
 	border-top:1px dotted #333;
 	border-bottom:1px dotted #333; 
 }
 
-.board-form .tbl-ex td {
+
+
+.board-form  {
 	text-align:left
 }
 
-.board-form .tbl-ex td.label {
+.board-form ,.tbl-ex td.label {
 	text-align:left;
 	font-weight:bold;
 	width:60px; 
@@ -136,6 +141,10 @@ a.del	{
 /*
 	게시판 리스트 페이징
 */
+
+
+
+
 div.pager {
 	width:100%;
 	text-align:center;
@@ -151,3 +160,79 @@ div.pager  ul li a:visited,
 div.pager  ul li a:link,
 div.pager  ul li a:active	{ text-decoration: none; color:#555 }
 div.pager  ul li a:hover	{ text-decoration: none; color:#f00 }
+#myboard { margin:20px auto;	width:550px; }
+#myboard ul li {
+
+    line-height: 30px; /*li 세로 간격*/
+
+    padding-left: 20px;
+	
+}
+
+
+#myboard ul {
+
+    width: 100%;
+
+}
+
+#myboard ul li:first-child {
+
+    border-top: 2px solid #6a6a6a;
+
+    border-bottom: 2px solid #6a6a6a;
+	
+}
+
+
+
+#myboard ul li:last-child {
+
+    border-bottom: 1px solid #000;
+
+}
+
+
+
+#myboard ul li:nth-child(2n) { 
+
+    background: #94D8F6;
+
+   
+
+}
+
+
+
+
+#myboard ul li span a {
+
+    display: inline-block;
+
+    float: right;
+
+    width: 150px;
+	
+    text-align: center;
+	
+}
+#myboard span{
+	margin-left:20px;
+	
+}
+#myboard a{
+	margin-left:30px;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+

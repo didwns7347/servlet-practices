@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>HTML</title>
+<body>
+	<p id="demo"></p>
+	<p id="text"></p>
+	<script>
+	var entityMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '/': '&#x2F;', '`': '&#x60;', '=': '&#x3D;' }; 
+	function escapeHtml (string) {
+		return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+			return entityMap[s]; 
+			}); 
+		}
+
+		var request = new XMLHttpRequest();
+
+		request.onreadystatechange = function() {
+
+			if (request.readyState == 4 && request.status == 200) {
+				//alert(request.responseText.indexOf("html"));
+				var txt="";
+				var s = request.responseText;
+				var strs = s.split("<img");
+				var astr = s.split("<a")
+				var strout = document.getElementById("text");
+				strout.innerHTML = s;
+				alert("a:" + astr.length + " " + "img:" + strs.length);
+				
+
+			}
+
+		}
+
+		request.open("GET", "http://naver.com");
+
+		request.send();
+	</script>
+</body>
+</head>
+</html>

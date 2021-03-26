@@ -441,14 +441,14 @@ public class BoardDao {
 			conn = getConnection();
 			long start=(long)10*page;
 			// 3. SQL 준비
-			
+			System.out.println(page);
 			String sql ="select no, title, writer, contents,g_no,depth,reg_date from board "
 					+ "order by g_no desc,"
 					+ "g_order asc ,"
 					+ "depth asc,"
 					+ "no asc "
 					+" limit  "+start+",10";
-
+			//System.out.println(sql);
 			pstmt = conn.prepareStatement(sql);
 
 			// 4. 바인딩
