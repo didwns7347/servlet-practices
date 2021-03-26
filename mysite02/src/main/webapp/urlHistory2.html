@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<ol ></ol>
+	<script>
+		var s = localStorage.getItem('url');
+		var ol=document.getElementsByTagName("ol")[0];
+		var urls = s.split("@");
+		for (var i = 0; i < urls.length; i++) {
+			var li = document.createElement("li");
+			li.appendChild(document.createTextNode(urls[i]));
+			ol.appendChild(li);
+		}
+	</script>
+
+</body>
+</html>
