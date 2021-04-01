@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Main</title>
+</head>
+<style>
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 5px;
+}
+</style>
+<body>
+
+	<h2>The XMLHttpRequest Object</h2>
+
+	<button type="button" onclick="loadDoc()">Test</button>
+	<br>
+	<br>
+	<table id="demo"></table>
+
+
+	<script>
+		var url = 'http://apis.data.go.kr/1262000/SafetyNewsList/getCountrySafetyNewsList';
+		var queryParams = '?'
+				+ encodeURIComponent('ServiceKey')
+				+ '='
+				+ 'raS%2FDAt2sj1uT96qBjdr%2BqFNl8bhJ2lQxhIq0h5%2FDX84hhrjhLkb%2Bl1Zhi1JbliYgStQr2gsSshwuHMHfx2PIQ%3D%3D';
+
+		queryParams += '&' + encodeURIComponent('numOfRows') + '='
+				+ encodeURIComponent('10'); /**/
+		queryParams += '&' + encodeURIComponent('pageNo') + '='
+				+ encodeURIComponent('1'); /**/
+		queryParams += '&' + encodeURIComponent('title1') + '='
+				+ encodeURIComponent('입국'); /**/
+		queryParams += '&' + encodeURIComponent('title2') + '='
+				+ encodeURIComponent('코로나'); /**/
+		queryParams += '&' + encodeURIComponent('title3') + '='
+				+ encodeURIComponent('운항'); /**/
+		queryParams += '&' + encodeURIComponent('title4') + '='
+				+ encodeURIComponent('항공권'); /**/
+		queryParams += '&' + encodeURIComponent('title5') + '='
+				+ encodeURIComponent('격리'); /**/
+
+		function loadDoc() {
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+
+					myFunction(this);
+
+				}
+			};
+
+			xhttp.open("GET", url + queryParams, true);
+			xhttp.send();
+
+		}
+
+		function myFunction(xml) {
+			var i;
+			var xmlDoc = xml.responseXML;
+			var table = "<tr><th>국가명</th><th>영문 국가명</th><th>제목</th></tr>";
+			var x = xmlDoc.getElementsByTagName("item");
+
+			for (i = 0; i < x.length; i++) {
+				table += "<tr><td>"
+						+ x[i].getElementsByTagName("countryName")[0].childNodes[0].nodeValue
+						+ //국가명
+						"</td><td>"
+						+ x[i].getElementsByTagName("countryEnName")[0].childNodes[0].nodeValue
+						+ //영문국가명
+						"</td></tr>"
+						+ x[i].getElementsByTagName("title")[0].childNodes[0].nodeValue
+						+ //제목
+						"</td></tr>";
+			}
+			document.getElementById("demo").innerHTML = table;
+		}
+	</script>
+</body>
+</html>

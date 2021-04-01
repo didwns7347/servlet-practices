@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<p id="demo"></p>
+	<script>
+		var today = new Date();
+		let year = today.getFullYear();
+		let month = today.getMonth() + 1;
+		let date = today.getDate();
+		if (month < 10) {
+			month = "0" + month.toString();
+		}
+		let now = year.toString() + month.toString() + date.toString();
+		
+		var dekey = 'NY3Eyplz8QmG6PY2giywW9MVsebDNAIPdsWRLLODzCkm7X/NhdeTTLAS+/rXYA2+S/jWxyJPZjjVQm/OE4nJpw==';
+		var enkey = 'NY3Eyplz8QmG6PY2giywW9MVsebDNAIPdsWRLLODzCkm7X%2FNhdeTTLAS%2B%2FrXYA2%2BS%2FjWxyJPZjjVQm%2FOE4nJpw%3D%3D';
+		var xhr = new XMLHttpRequest();
+		var url = 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson'; /*URL*/
+		var queryParams = '?' + encodeURIComponent('ServiceKey') + '=' + enkey; /*Service Key*/
+		queryParams += '&' + encodeURIComponent('pageNo') + '='
+				+ encodeURIComponent('1'); /**/
+		queryParams += '&' + encodeURIComponent('numOfRows') + '='
+				+ encodeURIComponent('10'); /**/
+		queryParams += '&' + encodeURIComponent('startCreateDt') + '='
+				+ encodeURIComponent(now); /**/
+		queryParams += '&' + encodeURIComponent('endCreateDt') + '='
+				+ encodeURIComponent(now.toString()); /**/
+		xhr.open('GET', url + queryParams);
+		xhr.onreadystatechange = function() {
+			if (this.readyState == 4) {
+				var xmlDoc = this.responseXML;
+				txt = "";
+			    x = xmlDoc.getElementsByTagName("item");
+			    txt+= x[0].getElementsByTagName("gubun")[0].childNodes[0].nodeValue;
+			   
+			    document.getElementById("demo").innerHTML = txt;
+			  
+
+			}
+		};
+
+		xhr.send('');
+	</script>
+</body>
+</html>

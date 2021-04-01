@@ -9,7 +9,6 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
   <filter>
     <filter-name>EncodingFilter</filter-name>
     <filter-class>com.bitacademy.mysite.web.EncodingFilter</filter-class>
@@ -22,8 +21,6 @@
     <filter-name>EncodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  
-  
   <servlet>
     <description></description>
     <display-name>MainServlet</display-name>
@@ -46,7 +43,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>UserServlet</servlet-name>
-    <url-pattern>/user</url-pattern>
+    <url-pattern>/user1</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -56,7 +53,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>GuestbookServlet</servlet-name>
-    <url-pattern>/guestbook</url-pattern>
+    <url-pattern>/guestbook1</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -66,8 +63,36 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>BoardServlet</servlet-name>
+    <url-pattern>/board1</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MongoUserServlet</display-name>
+    <servlet-name>MongoUserServlet</servlet-name>
+    <servlet-class>com.bitacademy.mysite.controller.MongoUserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MongoUserServlet</servlet-name>
+    <url-pattern>/user</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MongoGuestbookServlet</display-name>
+    <servlet-name>MongoGuestbookServlet</servlet-name>
+    <servlet-class>com.bitacademy.mysite.controller.MongoGuestbookServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MongoGuestbookServlet</servlet-name>
+    <url-pattern>/guestbook</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MongoBoardServlet</display-name>
+    <servlet-name>MongoBoardServlet</servlet-name>
+    <servlet-class>com.bitacademy.mysite.controller.MongoBoardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MongoBoardServlet</servlet-name>
     <url-pattern>/board</url-pattern>
   </servlet-mapping>
-  
-  
 </web-app>

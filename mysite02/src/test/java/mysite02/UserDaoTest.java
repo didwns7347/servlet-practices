@@ -1,6 +1,9 @@
 package mysite02;
 
+import com.bitacademy.mysite.dao.MongoUserDao;
+import com.bitacademy.mysite.dao.MongoBoardDao;
 import com.bitacademy.mysite.dao.UserDao;
+import com.bitacademy.mysite.vo.BoardVo;
 import com.bitacademy.mysite.vo.UserVo;
 
 public class UserDaoTest {
@@ -14,12 +17,32 @@ public class UserDaoTest {
 		UserDao dao=new UserDao();
 		return dao.update(test);
 	}
+	public static void MongoTest() {
+		MongoUserDao db= new MongoUserDao();
+		UserVo test= new UserVo();
+		test.setEmail("master");
+		test.setPassword("1");
+		System.out.println(db.findByEmailAndPassword(test));
+		test.setEmail("test1");
+		test.setPassword("1");
+		System.out.println(db.findByEmailAndPassword(test));
+	}
+	public static void MongoBoardTest() {
+		MongoBoardDao db= new MongoBoardDao();
+	
+		for(BoardVo vo :db.findPage(1)) {
+			System.out.println(vo.toString());
+		}
+	}
+	public static void insertTest() {
+		
+	}
+	
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("Start");
-		System.out.println(UpdateTest());
-		String a="asdf";
+		
+		MongoBoardTest();
 		
 
 	}

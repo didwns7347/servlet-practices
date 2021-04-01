@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<p id="demo"></p>
+	<table id="content"></table>
+	<script>
+		var today = new Date();
+		let year=today.getFullYear();
+		let month=today.getMonth()+1;
+		let date = today.getDate();
+		if(month<10){
+			month="0"+month.toString();
+		}
+		let now=year.toString()+month.toString()+date.toString();
+		document.getElementById("demo").innerHTML = today;
+		var dekey= 'NY3Eyplz8QmG6PY2giywW9MVsebDNAIPdsWRLLODzCkm7X/NhdeTTLAS+/rXYA2+S/jWxyJPZjjVQm/OE4nJpw==';
+		var enkey='NY3Eyplz8QmG6PY2giywW9MVsebDNAIPdsWRLLODzCkm7X%2FNhdeTTLAS%2B%2FrXYA2%2BS%2FjWxyJPZjjVQm%2FOE4nJpw%3D%3D';
+		var xhr = new XMLHttpRequest();
+		var url = 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson'; /*URL*/
+		var queryParams = '?' + encodeURIComponent('ServiceKey') + '='+enkey; /*Service Key*/
+		queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
+		queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
+		queryParams += '&' + encodeURIComponent('startCreateDt') + '=' + encodeURIComponent(now); /**/
+		queryParams += '&' + encodeURIComponent('endCreateDt') + '=' + encodeURIComponent(now.toString()); /**/
+		xhr.open('GET', url + queryParams);
+		xhr.onreadystatechange = function () {
+		    if (this.readyState == 4) {
+		        var xmlDoc = this.responseXML;
+		        var table="<tr><th>도시명</th><th>전일대비 증감 수</th><th>10만명당 발생률</th><th>확진자수</th><th>지역발생수</th><th>기준 일시</th></tr>";
+		        var x = xmlDoc.getElementsByTagName("item");
+		        for (i = 0; i <x.length; i++) { 
+		            table += "<tr><td>" +
+		            x[i].getElementsByTagName("gubun")[0].childNodes[0].nodeValue +
+		            "</td><td>" +
+		            x[i].getElementsByTagName("incDec")[0].childNodes[0].nodeValue +
+		            "</td><td>" +
+		            x[i].getElementsByTagName("qurRate")[0].childNodes[0].nodeValue +
+		            "</td><td>" +
+		            x[i].getElementsByTagName("defCnt")[0].childNodes[0].nodeValue +
+		            "</td><td>" +
+		            x[i].getElementsByTagName("localOccCnt")[0].childNodes[0].nodeValue +
+		            "</td><td>" +
+		            x[i].getElementsByTagName("stdDay")[0].childNodes[0].nodeValue +
+		            "</td></tr>";
+		          }
+		        document.getElementById("content").innerHTML = table;
+		        
+		        
+		    }
+		};
+
+		xhr.send('');
+	</script>
+
+</body>
+</html>
