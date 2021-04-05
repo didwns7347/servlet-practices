@@ -13,7 +13,22 @@ import com.bitacademy.mysite.vo.GuestbookVo;
 import com.bitacademy.mysite.vo.UserVo;
 
 public class BoardDao {
-	private Connection getConnection() throws SQLException {
+	private Connection getSlaveConnection() throws SQLException { //슬레이브 커넥션
+		Connection conn = null;
+
+		try {
+			// 1. JDBC Driver 로딩
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			// 2. 연결하기
+			String url = "jdbc:mysql://localhost :3307/webdb?characterEncoding=utf8&serverTimezone=UTC";
+			conn = DriverManager.getConnection(url, "root", "1234");
+		} catch (ClassNotFoundException e) {
+			System.out.println("error" + e);
+		}
+
+		return conn;
+	}
+	private Connection getConnection() throws SQLException { //마스터 커넥션
 		Connection conn = null;
 
 		try {
@@ -21,7 +36,7 @@ public class BoardDao {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			// 2. 연결하기
 			String url = "jdbc:mysql://localhost :3306/webdb?characterEncoding=utf8&serverTimezone=UTC";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
+			conn = DriverManager.getConnection(url, "root", "1234");
 		} catch (ClassNotFoundException e) {
 			System.out.println("error" + e);
 		}
@@ -34,7 +49,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = getConnection();
+			conn = getSlaveConnection();
 
 			// 3. SQL 준비
 			String sql ="select g_no from board where no=?;";
@@ -80,7 +95,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = getConnection();
+			conn = getSlaveConnection();
 
 			// 3. SQL 준비
 			String sql ="SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'board' AND table_schema = DATABASE( )";
@@ -255,7 +270,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = getConnection();
+			conn = getSlaveConnection();
 
 			// 3. SQL 준비
 			String sql ="select no, title, writer, contents,g_no,depth,reg_date from board order by g_no desc ,depth asc , no desc;";
@@ -438,7 +453,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = getConnection();
+			conn = getSlaveConnection();
 			long start=(long)10*page;
 			// 3. SQL 준비
 			System.out.println(page);
@@ -503,7 +518,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = getConnection();
+			conn = getSlaveConnection();
 
 			// 3. SQL 준비
 			String sql ="select count(no) from board";
@@ -547,7 +562,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = getConnection();
+			conn = getSlaveConnection();
 
 			// 3. SQL 준비
 			String sql ="select max(g_order) from board where  parent=?";
@@ -590,7 +605,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = getConnection();
+			conn = getSlaveConnection();
 
 			// 3. SQL 준비
 			String sql ="select max(g_order) from board where parent=?";
@@ -635,7 +650,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			conn = getConnection();
+			conn = getSlaveConnection();
 
 			// 3. SQL 준비
 			String sql ="select max(g_order) from board where g_no=?";

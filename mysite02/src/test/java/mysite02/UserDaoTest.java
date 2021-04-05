@@ -1,6 +1,11 @@
 package mysite02;
 
 import com.bitacademy.mysite.dao.MongoUserDao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.bitacademy.mysite.dao.BoardDao;
 import com.bitacademy.mysite.dao.MongoBoardDao;
 import com.bitacademy.mysite.dao.UserDao;
 import com.bitacademy.mysite.vo.BoardVo;
@@ -34,15 +39,18 @@ public class UserDaoTest {
 			System.out.println(vo.toString());
 		}
 	}
-	public static void insertTest() {
-		
+	public static void BoardDaoTest() {
+		BoardDao dao = new BoardDao();
+		List<BoardVo> arr= dao.findAll();
+		for(BoardVo vo : arr) {
+			System.out.println(vo.toString());
+		}
 	}
-	
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		MongoBoardTest();
+		BoardDaoTest();
 		
 
 	}

@@ -24,6 +24,22 @@ public class UserDao {
 
 		return conn;
 	}
+	private Connection getSlaveConnection() throws SQLException {
+		Connection conn = null;
+
+		try {
+			// 1. JDBC Driver 로딩
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			// 2. 연결하기
+			String url = "jdbc:mysql://localhost :3307/webdb?characterEncoding=utf8&serverTimezone=UTC";
+			conn = DriverManager.getConnection(url, "root", "1234");
+		} catch (ClassNotFoundException e) {
+			System.out.println("error" + e);
+		}
+
+		return conn;
+	}
+
 
 	public UserVo findByEmailAndPassword(UserVo invo) {
 		UserVo vo = null;
@@ -33,7 +49,7 @@ public class UserDao {
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = this.getConnection();
+			conn = this.getSlaveConnection();
 
 			String sql = "select no,name from user where email=? and password=?;";
 			pstmt = conn.prepareStatement(sql);
@@ -111,7 +127,7 @@ public class UserDao {
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		try {
-			conn = this.getConnection();
+			conn = this.getSlaveConnection();
 
 			String sql = "select name,email,password,gender from user where no=?;";
 			pstmt = conn.prepareStatement(sql);
